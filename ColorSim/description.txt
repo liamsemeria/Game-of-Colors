@@ -1,0 +1,9 @@
+Game of Colors
+    cubes attract to colors its different from
+    cubes repel from similar colors
+    when cubes meet
+        they stick together and freeze in place, and combine colors
+        they create new offspring with the same color
+        
+        
+the cubes figure out where to go because of a heatmap, based on near colors
