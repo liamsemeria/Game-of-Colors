@@ -7,6 +7,24 @@
 //
 #include "brush.hpp"
 
+Uint32 Brush::neighborcolor(Uint32 *pixels, int x, int y)
+{
+    int xsize = windowsize.x;
+    Uint32 color = pixels[y * xsize + x + 1];
+    if (color != pixels[y * xsize + x] && color != 0)
+        return color;
+    color = pixels[y * xsize + x - 1];
+    if (color != pixels[y * xsize + x] && color != 0)
+        return color;
+    color = pixels[(y+1) * xsize + x];
+    if (color != pixels[y * xsize + x] && color != 0)
+        return color;
+    color = pixels[(y-1) * xsize + x];
+    if (color != pixels[y * xsize + x] && color != 0)
+        return color;
+    return colhex;
+}
+
 // chance it is -1
 int random_sign(int chance)
 {
@@ -52,14 +70,15 @@ Brush::Brush()
 {
     pos = {960,450};
     targpos = {960,540};
+    colhex = 255;
 }
 
 Brush::Brush(SDL_Color color,int x,int y, int xsize,int ysize)
 {
     pos = {x,y};
-    col = color;
     targpos = {xsize/2,ysize/2};
     windowsize = {xsize,ysize};
+    colhex = SDL_MapRGB(SDL_AllocFormat(SDL_PIXELFORMAT_ABGR8888), color.r, color.g, color.b);
 }
 
 void Brush::update(SDL_Renderer *renderer, Uint32 *pixels)
@@ -83,16 +102,16 @@ void Brush::update(SDL_Renderer *renderer, Uint32 *pixels)
     // add a new point
     if (full){
         if (front >= size) front = 0;
+        pixels[points[front].y * windowsize.x + points[front].x] = 0;
         points[front] = {pos.x,pos.y};
         front++;
     }
     else points.push_back({pos.x,pos.y});
     for (int i = 0; i < points.size(); i++)
     {
-        if (points[i].x == pos.x && points[i].y == pos.y)
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-        else SDL_SetRenderDrawColor(renderer, col.r, col.g, col.b, 0);
-        SDL_RenderDrawPoint(renderer, points[i].x, points[i].y);
+        colhex = neighborcolor(pixels, points[i].x, points[i].y);
+        pixels[points[i].y * windowsize.x + points[i].x] = colhex;
+        //SDL_RenderDrawPoint(renderer, points[i].x, points[i].y);
     }
 
 }

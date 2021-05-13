@@ -24,11 +24,6 @@ SDL_Point Sim::dist(SDL_Point a, SDL_Point b)
     return  {(int)sqrt(xd*xd + yd*yd),flag};
 }
 
-bool cmpcolors(SDL_Color a, SDL_Color b)
-{
-    return (a.r==b.r && a.g==b.g && a.b==b.b);
-}
-
 Sim::Sim()
 {
     //start();
@@ -93,6 +88,7 @@ void Sim::handleEvents()
                     running = false;
             else if (event.key.keysym.sym == SDLK_r)
             {
+                memset(pixels, 0, sizex * sizey * sizeof(Uint32));
                 start();
             }
                 break;
@@ -103,7 +99,6 @@ void Sim::handleEvents()
 void Sim::render()
 {
     //pixels[1] = 255;
-    //SDL_UpdateTexture(texture, NULL, pixels, sizex * sizeof(Uint32));
     
     SDL_RenderClear(renderer);
     for (int i = 0; i < brushCount; i++)
@@ -113,7 +108,7 @@ void Sim::render()
         for (int j = 0; j < brushCount; j++)
         {
             //printf("%d %d \n",brushes[j].pos.x,brushes[j].pos.y);
-            if (cmpcolors(brushes[i].col, brushes[j].col))
+            if (brushes[j].colhex == brushes[i].colhex)
             {
                 if (dist(brushes[j].pos, brushes[i].pos).x < min && i != j)
                 {
@@ -130,10 +125,10 @@ void Sim::render()
         
         brushes[i].update(renderer,pixels);
     }
-    
+    SDL_UpdateTexture(texture, NULL, pixels, sizex * sizeof(Uint32));
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     
-    //ßSDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderPresent(renderer);
 }
 
@@ -160,8 +155,6 @@ void Sim::end()
 
 void Sim::start()
 {
-    if (sizey != NULL)
-    printf("%d %d \n",sizex,sizey);
     SDL_Color c;
     cols[0] = {200,255,200};
     cols[1] = {255,200,200};

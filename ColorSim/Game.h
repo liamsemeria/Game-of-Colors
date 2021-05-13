@@ -20,14 +20,14 @@ class Sim
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Texture *texture;
-    Brush brushes[200];
-    int brushCount = 200;
+    Brush brushes[300];
+    int brushCount = 300;
     SDL_Color cols[6];
     int min;
     Brush closest;
     SDL_Point distdata;
     int sizex,sizey;
-    int spawnsize = 100;
+    int spawnsize = 800;
     Uint32 *pixels = nullptr;
     int pitch = 0;
 public:

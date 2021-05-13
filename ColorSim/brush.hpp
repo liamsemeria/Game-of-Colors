@@ -17,7 +17,7 @@
 class Brush
 {
 public:
-    long size = 400;
+    long size = 300;
     bool full = false;
     int front = 0;
     SDL_Point windowsize;
@@ -25,15 +25,16 @@ public:
     SDL_Point pos;
     SDL_Point targpos = {960,540};
     SDL_Point chances = {50,50};
-    SDL_Color col;
+    Uint32 colhex;
     int flag = 0;
     
     Brush();
-    Brush(SDL_Color color, int x, int y, int xsize, int ysize);
+    Brush(SDL_Color color,int x, int y, int xsize, int ysize);
     void update(SDL_Renderer *renderer, Uint32 *pixels);
 private:
     bool isfree();
     void getchances();
+    Uint32 neighborcolor(Uint32 *pixels, int x, int y);
 };
 
 #endif /* brush_hpp */
