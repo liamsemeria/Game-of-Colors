@@ -10,6 +10,8 @@
 Uint32 Brush::neighborcolor(Uint32 *pixels, int x, int y)
 {
     int xsize = windowsize.x;
+    //printf("%d %d \n", x, y);
+    if ((x<=1 || y<=1) || (x>=windowsize.x-1 || y>=windowsize.y-1)) return colhex;
     Uint32 color = pixels[y * xsize + x + 1];
     if (color != pixels[y * xsize + x] && color != 0)
         return color;
@@ -107,9 +109,11 @@ void Brush::update(SDL_Renderer *renderer, Uint32 *pixels)
         front++;
     }
     else points.push_back({pos.x,pos.y});
+    // detect head hitting another color
+    colhex = neighborcolor(pixels, pos.x, pos.y);
     for (int i = 0; i < points.size(); i++)
     {
-        colhex = neighborcolor(pixels, points[i].x, points[i].y);
+        if ((pos.x<=1 || pos.y<=1) || (pos.x>=windowsize.x-1 || pos.y>=windowsize.y-1)) continue;
         pixels[points[i].y * windowsize.x + points[i].x] = colhex;
         //SDL_RenderDrawPoint(renderer, points[i].x, points[i].y);
     }

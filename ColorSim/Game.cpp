@@ -69,7 +69,7 @@ void Sim::initialize(char* name, int xPos, int yPos, int xSize, int ySize, bool 
     renderer = SDL_CreateRenderer(window, -1, 0);
     // create texture
     texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, sizex, sizey);
-    pixels = new Uint32[sizex*sizey];
+    pixels = new Uint32[sizex*(sizey+1)];
     memset(pixels, 0, sizex * sizey * sizeof(Uint32));
     //SDL_LockTexture(texture, nullptr, (void**)&pixels, &pitch);
 }
