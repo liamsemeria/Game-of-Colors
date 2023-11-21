@@ -7,3 +7,4 @@ Game of Colors
         
         
 the cubes figure out where to go because of a heatmap, based on near colors
+run with run.sh

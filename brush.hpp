@@ -8,7 +8,7 @@
 
 #ifndef brush_hpp
 #define brush_hpp
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <stdio.h>
 #include <time.h>
 #include <vector>

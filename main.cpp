@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "Game.h"
 /*
  Cube Artists
@@ -23,10 +23,10 @@
 Sim *g = nullptr;
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
+    
     g = new Sim();
     char* t = "Color Evolution";
-    g->initialize(t, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1300, 750, true);
+    g->initialize(t, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1300, 750, false);
     g->run();
     return 0;
 }

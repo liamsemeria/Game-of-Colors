@@ -45,7 +45,6 @@ void Sim::initialize(char* name, int xPos, int yPos, int xSize, int ySize, bool 
     {
         // enumerate displays
         int displays = SDL_GetNumVideoDisplays();
-        assert( displays > 1 );  // assume we have secondary monitor
 
         // get display bounds for all displays
         std::vector< SDL_Rect > displayBounds;
@@ -53,12 +52,15 @@ void Sim::initialize(char* name, int xPos, int yPos, int xSize, int ySize, bool 
             displayBounds.push_back( SDL_Rect() );
             SDL_GetDisplayBounds( i, &displayBounds.back() );
         }
-
+        // if a secondary monitor exists, use it
+        int d = 0;
+        if (displays > 1) d = 1;
+        printf("using display: %d \n", d);
         // window of dimensions 500 * 500 on secondary monitor
-        int x = displayBounds[1].x;
-        int y = displayBounds[1].y;
-        int w = displayBounds[1].w; //1920
-        int h = displayBounds[1].h; // 1080
+        int x = displayBounds[d].x;
+        int y = displayBounds[d].y;
+        int w = displayBounds[d].w; //1920
+        int h = displayBounds[d].h; // 1080
         sizex = w;
         sizey = h;
         printf("%d %d \n",sizex,sizey);
